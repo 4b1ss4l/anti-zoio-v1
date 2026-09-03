@@ -1,0 +1,117 @@
+// ============================================
+// CÓDIGO FUNCIONAL PARA ENGANAR DETECÇÃO DE ABA
+// ============================================
+
+(function() {
+    'use strict';
+    
+    console.log('🚀 Ativando proteção contra detecção de aba...');
+    
+    // 1. FORÇAR VISIBILITY STATE SEMPRE VISIBLE
+    const visibilityOverride = {
+        get: function() {
+            return 'visible';
+        },
+        set: function() {}
+    };
+    
+    Object.defineProperty(document, 'visibilityState', visibilityOverride);
+    Object.defineProperty(document, 'hidden', {
+        get: function() { return false; },
+        set: function() {}
+    });
+    
+    // 2. BLOQUEAR EVENTOS DE VISIBILIDADE
+    const originalAddEventListener = document.addEventListener;
+    document.addEventListener = function(type, listener, options) {
+        if (type === 'visibilitychange' || 
+            type === 'webkitvisibilitychange' || 
+            type === 'mozvisibilitychange' ||
+            type === 'msvisibilitychange') {
+            console.log('🛡️ Evento bloqueado:', type);
+            return;
+        }
+        return originalAddEventListener.call(this, type, listener, options);
+    };
+    
+    // 3. FAZER hasFocus SEMPRE RETORNAR TRUE
+    document.hasFocus = function() {
+        return true;
+    };
+    
+    // 4. BLOQUEAR blur E focus DA JANELA
+    const winAddListener = window.addEventListener;
+    window.addEventListener = function(type, listener, options) {
+        if (type === 'blur' || type === 'focus' || 
+            type === 'pagehide' || type === 'pageshow') {
+            console.log('🛡️ Evento de janela bloqueado:', type);
+            return;
+        }
+        return winAddListener.call(this, type, listener, options);
+    };
+    
+    // 5. REMOVER EVENTOS EXISTENTES DE blur/focus
+    // Remove todos os listeners de blur e focus
+    const blurEvents = window['onblur'];
+    const focusEvents = window['onfocus'];
+    window.onblur = null;
+    window.onfocus = null;
+    
+    // 6. SOBRESCREVER PROPRIEDADES DE PAGE VISIBILITY
+    Object.defineProperty(document, 'webkitHidden', {
+        get: function() { return false; }
+    });
+    Object.defineProperty(document, 'webkitVisibilityState', {
+        get: function() { return 'visible'; }
+    });
+    
+    // 7. BLOQUEAR DETECÇÃO VIA requestAnimationFrame
+    const originalRAF = window.requestAnimationFrame;
+    window.requestAnimationFrame = function(callback) {
+        // Mantém o callback rodando mesmo em background
+        return originalRAF.call(this, callback);
+    };
+    
+    // 8. IMPEDIR QUE O DOCUMENTO PERCA O FOCO
+    document.addEventListener('visibilitychange', function(e) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        Object.defineProperty(document, 'hidden', {
+            get: function() { return false; }
+        });
+        Object.defineProperty(document, 'visibilityState', {
+            get: function() { return 'visible'; }
+        });
+        console.log('🔄 Visibilidade resetada para visible');
+    }, true);
+    
+    // 9. SOBRESCREVER PAGE HIDE
+    window.addEventListener('pagehide', function(e) {
+        e.stopPropagation();
+        console.log('🛡️ Pagehide bloqueado');
+    }, true);
+    
+    // 10. MANTER SEMPRE ATIVO VIA INTERVALO
+    setInterval(function() {
+        // Força o documento a permanecer visível
+        if (document.hidden === true || document.visibilityState !== 'visible') {
+            Object.defineProperty(document, 'hidden', {
+                get: function() { return false; }
+            });
+            Object.defineProperty(document, 'visibilityState', {
+                get: function() { return 'visible'; }
+            });
+            console.log('🔄 Mantendo visibilidade ativa');
+        }
+    }, 500);
+    
+    console.log('✅ Proteção ATIVADA com sucesso!');
+    console.log('📌 O site NÃO detectará quando você mudar de aba.');
+    console.log('⚠️ Para desativar, recarregue a página (F5).');
+    
+    // TESTE: Verificar se funcionou
+    console.log('🧪 Teste - document.hidden:', document.hidden);
+    console.log('🧪 Teste - document.visibilityState:', document.visibilityState);
+    console.log('🧪 Teste - document.hasFocus():', document.hasFocus());
+    
+})();
