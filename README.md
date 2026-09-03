@@ -1,5 +1,6 @@
 # anti-zoio-v1
 ´´´javascript
+
 // 1. Bloqueia a alteração do estado de visibilidade
 Object.defineProperty(document, 'visibilityState', {
     get: function() { return 'visible'; },
@@ -34,4 +35,5 @@ EventTarget.prototype.addEventListener = function(type, listener, options) {
 };
 
 console.log("Proteção de visibilidade ativada. O site sempre achará que esta aba está em foco.");
+
 ´´´
