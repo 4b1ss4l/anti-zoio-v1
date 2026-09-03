@@ -1,5 +1,6 @@
 # anti-zoio-v1
-´´´javascript
+´´´bash
+
 Object.defineProperty(document, 'visibilityState', {
     get: function() { return 'visible'; },
     configurable: true
