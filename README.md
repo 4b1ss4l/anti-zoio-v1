@@ -1,6 +1,6 @@
 # anti-zoio-v1
-´´´bash
 
+´´´ShellSession
 Object.defineProperty(document, 'visibilityState', {
     get: function() { return 'visible'; },
     configurable: true
