@@ -1,2 +1,1261 @@
-// Código minificado para colar no console
-(function(){'use strict';const e=document.createElement('div');e.id='ai-assistant';e.innerHTML=`<style>#ai-assistant{position:fixed;bottom:20px;right:20px;z-index:999999;font-family:'Segoe UI',Arial,sans-serif}#ai-toggle{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none;cursor:pointer;font-size:28px;box-shadow:0 4px 20px rgba(102,126,234,.5);transition:all .3s;display:flex;align-items:center;justify-content:center;position:relative}#ai-toggle:hover{transform:scale(1.1)}#ai-toggle .pulse{position:absolute;width:100%;height:100%;border-radius:50%;background:rgba(102,126,234,.3);animation:pulse 2s infinite}@keyframes pulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}#ai-window{display:none;position:absolute;bottom:80px;right:0;width:380px;max-height:500px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.25);overflow:hidden;animation:slideUp .3s}#ai-window.active{display:block}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}#ai-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}#ai-header h3{margin:0;font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}#ai-header .status{display:flex;align-items:center;gap:6px;font-size:12px}.status-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:blink 1s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}#ai-close{background:0 0;border:none;color:#fff;font-size:20px;cursor:pointer}#ai-body{padding:16px;max-height:350px;overflow-y:auto;background:#f8f9fa}#ai-messages{display:flex;flex-direction:column;gap:10px}.message{padding:10px 14px;border-radius:12px;max-width:85%;word-wrap:break-word;animation:messageIn .3s}@keyframes messageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.message.user{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}.message.ai{background:#fff;color:#333;align-self:flex-start;border-bottom-left-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,.05)}#ai-footer{padding:12px 16px;background:#fff;border-top:1px solid #e5e7eb;display:flex;gap:8px}#ai-input{flex:1;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;outline:0;font-size:14px}#ai-input:focus{border-color:#667eea}#ai-send{padding:8px 16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500}#ai-send:disabled{opacity:.5;cursor:not-allowed}#ai-body::-webkit-scrollbar{width:4px}#ai-body::-webkit-scrollbar-track{background:#f1f1f1}#ai-body::-webkit-scrollbar-thumb{background:#667eea;border-radius:2px}@media(max-width:480px){#ai-window{width:300px;right:-10px}}</style><button id="ai-toggle"><span class="pulse"></span>🤖</button><div id="ai-window"><div id="ai-header"><h3>🤖 IA Assistente <span class="status"><span class="status-dot"></span>Online</span></h3><button id="ai-close">✕</button></div><div id="ai-body"><div id="ai-messages"><div class="message ai">👋 Olá! Sou sua assistente IA.<br>Pergunte qualquer coisa que eu responderei!</div></div></div><div id="ai-footer"><input id="ai-input" placeholder="Digite sua pergunta..."/><button id="ai-send">Enviar</button></div></div>`;document.body.appendChild(e);const t=document.getElementById('ai-toggle'),n=document.getElementById('ai-window'),o=document.getElementById('ai-close'),r=document.getElementById('ai-input'),a=document.getElementById('ai-send'),l=document.getElementById('ai-messages'),i=document.getElementById('ai-body');let c=!1;function d(e,t){const n=document.createElement('div');n.className=`message ${t}`,n.textContent=e,l.appendChild(n),u()}function u(){i.scrollTop=i.scrollHeight}function s(){const e=document.createElement('div');e.className='message ai',e.id='typing-indicator',e.innerHTML='<span class="typing"></span><span class="typing"></span><span class="typing"></span>',l.appendChild(e),u()}function m(){const e=document.getElementById('typing-indicator');e&&e.remove()}t.addEventListener('click',()=>{n.classList.toggle('active'),n.classList.contains('active')&&r.focus()}),o.addEventListener('click',()=>{n.classList.remove('active')}),r.addEventListener('keydown',e=>{if('Enter'===e.key&&!e.shiftKey){e.preventDefault(),b()}}),a.addEventListener('click',b),document.addEventListener('keydown',e=>{'Escape'===e.key&&n.classList.contains('active')&&n.classList.remove('active')});const p={oi:'Olá! Como posso ajudar você hoje?',olá:'Olá! Como posso ajudar você hoje?','tudo bem':'Estou bem, obrigada! E você?','qual seu nome':'Sou uma assistente IA criada para ajudar você!','quem é você':'Sou uma assistente virtual inteligente!',obrigado:'Por nada! Estou aqui para ajudar. 😊',obrigada:'Por nada! Estou aqui para ajudar. 😊',tchau:'Tchau! Até mais. 👋',adeus:'Até logo! 👋',ajuda:'Posso ajudar com: matemática, programação, traduções, pesquisas, dúvidas gerais e muito mais!','o que você sabe fazer':'Posso responder perguntas, ajudar com tarefas, dar dicas de programação, traduzir textos, fazer cálculos e muito mais!'};function h(e){const t=e.toLowerCase().trim();for(const[e,n]of Object.entries(p))if(t.includes(e))return n;if(t.includes('matem')||t.includes('calcular')||t.includes('quanto é'))return f(e);if(t.includes('traduz')||t.includes('tradução'))return'🔤 Posso ajudar com traduções! Diga a palavra/frase e o idioma.';if(t.includes('programa')||t.includes('código')||t.includes('javascript'))return'💻 Para código em JavaScript, diga o que precisa fazer que eu ajudo!';if(t.includes('significa')||t.includes('definição')||t.includes('o que é'))return`📚 Sobre "${e}": Posso pesquisar isso para você. Se quiser, reformule a pergunta.`;return null}function f(e){try{const t=e.match(/\d+/g);if(!t)return null;if(e.includes('+')){const e=t.reduce((e,t)=>Number(e)+Number(t),0);return`🧮 A soma é: ${e}`}if(e.includes('-')){const e=t.reduce((e,t)=>Number(e)-Number(t));return`🧮 O resultado é: ${e}`}if(e.includes('*')||e.includes('x')||e.includes('×')){const e=t.reduce((e,t)=>Number(e)*Number(t));return`🧮 O resultado é: ${e}`}if(e.includes('/')||e.includes('÷')){const e=Number(t[0])/Number(t[1]);return`🧮 O resultado é: ${e}`}return'🧮 Posso calcular isso! Diga a operação com: +, -, *, /'}catch(e){return'🤔 Não entendi a operação matemática. Tente com +, -, * ou /'}}function g(e){const t=['🤔 Interessante pergunta! Sobre "${e}", posso pesquisar mais se quiser.','📝 Ótima pergunta! Infelizmente não tenho essa informação agora, mas posso aprender.','💡 Que tal reformular? Posso ajudar melhor se souber mais detalhes.','🔍 Não sei a resposta exata, mas posso tentar descobrir. Me dê mais contexto.'];return t[Math.floor(Math.random()*t.length)]}function y(e){return new Promise(t=>setTimeout(t,e))}async function b(){const e=r.value.trim();if(!e||c)return;d(e,'user'),r.value='',a.disabled=!0,c=!0,s();try{let t=h(e);t||(t=g(e)),await y(600),m(),d(t,'ai')}catch(e){console.error(e),m(),d('❌ Desculpe, tive um problema ao processar sua pergunta. Tente novamente.','ai')}c=!1,a.disabled=!1,r.focus()}console.log('🤖 IA Assistente carregada!')})();
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA Inteligente - Assistente</title>
+    <style>
+        /* ============================================
+           ESTILOS COMPLETOS DA IA
+           ============================================ */
+        
+        /* Reset e base */
+        #ai-container * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #ai-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999999;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* ===== BOTÃO FLUTUANTE ===== */
+        #ai-fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #ai-fab:hover {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.7);
+        }
+
+        #ai-fab .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .badge-online {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 14px;
+            height: 14px;
+            background: #4ade80;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ===== JANELA PRINCIPAL ===== */
+        #ai-window {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 420px;
+            max-height: 600px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #ai-window.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ===== HEADER ===== */
+        #ai-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+        }
+
+        #ai-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #ai-header-left .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        #ai-header-left .info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        #ai-header-left .info .status {
+            font-size: 11px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        #ai-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        #ai-header-actions button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        #ai-header-actions button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 1;
+        }
+
+        /* ===== CONFIGURAÇÃO (Painel de API) ===== */
+        #ai-config-panel {
+            background: #f8f9fa;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        #ai-config-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+
+        #ai-config-panel label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        #ai-config-panel .config-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        #ai-config-panel input,
+        #ai-config-panel select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        #ai-config-panel input:focus,
+        #ai-config-panel select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #ai-config-panel .config-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        #ai-config-panel .config-actions button {
+            padding: 6px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-save-config {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-save-config:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-test-config {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .btn-test-config:hover {
+            background: #d1d5db;
+        }
+
+        /* ===== CORPO DO CHAT ===== */
+        #ai-body {
+            padding: 16px;
+            max-height: 350px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        #ai-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 85%;
+            word-wrap: break-word;
+            animation: messageIn 0.3s ease;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai {
+            background: white;
+            color: #1f2937;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .message.ai .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+            padding: 4px 0;
+        }
+
+        .message.ai .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite;
+        }
+
+        .message.ai .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .message.ai .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        .message .code-block {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 6px 0;
+        }
+
+        .message .think {
+            color: #6b7280;
+            font-style: italic;
+            font-size: 13px;
+            padding: 6px 10px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            margin: 4px 0;
+        }
+
+        /* ===== FOOTER ===== */
+        #ai-footer {
+            padding: 12px 16px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        #ai-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        #ai-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            resize: none;
+            transition: border 0.2s;
+            font-family: inherit;
+            min-height: 40px;
+            max-height: 120px;
+            line-height: 1.5;
+        }
+
+        #ai-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #ai-input::placeholder {
+            color: #9ca3af;
+        }
+
+        #ai-send {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        #ai-send:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        #ai-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        #ai-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #ai-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #ai-body::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 480px) {
+            #ai-window {
+                width: 340px;
+                right: -10px;
+                bottom: 70px;
+                max-height: 500px;
+            }
+
+            #ai-config-panel .config-row {
+                flex-direction: column;
+            }
+
+            #ai-fab {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+
+        /* ===== TOOLTIP ===== */
+        #ai-shortcut-hint {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 999998;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #ai-shortcut-hint.show {
+            opacity: 1;
+        }
+
+        /* ===== CONFIG ICON ===== */
+        .config-icon {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    HTML DA IA
+    ============================================ -->
+    <div id="ai-container">
+        <!-- Atalho de teclado hint -->
+        <div id="ai-shortcut-hint">⌨️ Pressione Shift + S para abrir</div>
+
+        <!-- Botão Flutuante -->
+        <button id="ai-fab" title="IA Assistente (Shift+S)">
+            <span class="pulse"></span>
+            <span class="badge-online"></span>
+            🤖
+        </button>
+
+        <!-- Janela Principal -->
+        <div id="ai-window">
+            <!-- Header -->
+            <div id="ai-header">
+                <div id="ai-header-left">
+                    <div class="avatar">🤖</div>
+                    <div class="info">
+                        <h3>IA Inteligente</h3>
+                        <div class="status">
+                            <span>●</span> Online
+                            <span style="margin-left: 8px; opacity: 0.5;">|</span>
+                            <span style="opacity: 0.7;" id="ai-model-display">GPT-3.5</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="ai-header-actions">
+                    <button id="ai-config-toggle" title="Configurar API">⚙️</button>
+                    <button id="ai-minimize" title="Minimizar">─</button>
+                    <button id="ai-close" title="Fechar">✕</button>
+                </div>
+            </div>
+
+            <!-- Painel de Configuração -->
+            <div id="ai-config-panel">
+                <div class="config-row">
+                    <div style="flex: 1;">
+                        <label>🔑 API Key</label>
+                        <input id="ai-api-key" type="password" placeholder="Digite sua API key..." />
+                    </div>
+                </div>
+                <div class="config-row">
+                    <div style="flex: 1;">
+                        <label>🤖 Modelo</label>
+                        <select id="ai-model-select">
+                            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                            <option value="gpt-4">GPT-4</option>
+                            <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                            <option value="claude-3-opus">Claude 3 Opus</option>
+                            <option value="claude-3-sonnet">Claude 3 Sonnet</option>
+                            <option value="gemini-pro">Gemini Pro</option>
+                            <option value="local">Local (Fallback)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 0 0 120px;">
+                        <label>🌐 API</label>
+                        <select id="ai-api-select">
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="google">Google AI</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="config-actions">
+                    <button class="btn-save-config" id="ai-save-config">💾 Salvar Configuração</button>
+                    <button class="btn-test-config" id="ai-test-config">🔍 Testar</button>
+                    <button class="btn-test-config" style="color:#ef4444;" id="ai-clear-config">🗑️ Limpar</button>
+                </div>
+                <div id="ai-config-status" style="font-size: 12px; margin-top: 6px; color: #6b7280;"></div>
+            </div>
+
+            <!-- Corpo do Chat -->
+            <div id="ai-body">
+                <div id="ai-messages">
+                    <div class="message ai">
+                        👋 Olá! Sou sua assistente IA inteligente.<br><br>
+                        💡 <strong>Dicas:</strong><br>
+                        • Pressione <strong>Shift + S</strong> para abrir/fechar<br>
+                        • Configure sua API no ⚙️ para respostas mais precisas<br>
+                        • Pergunte qualquer coisa!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div id="ai-footer">
+                <div id="ai-input-wrapper">
+                    <textarea id="ai-input" rows="1" placeholder="Digite sua pergunta... (Shift+Enter para nova linha)"></textarea>
+                </div>
+                <button id="ai-send">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+    JAVASCRIPT COMPLETO DA IA
+    ============================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================
+            // CONFIGURAÇÃO
+            // ============================================
+            const CONFIG = {
+                apiKey: localStorage.getItem('ai_api_key') || '',
+                model: localStorage.getItem('ai_model') || 'gpt-3.5-turbo',
+                apiType: localStorage.getItem('ai_api_type') || 'openai',
+                maxTokens: 500,
+                temperature: 0.7
+            };
+
+            // ============================================
+            // DOM REFERÊNCIAS
+            // ============================================
+            const DOM = {
+                container: document.getElementById('ai-container'),
+                fab: document.getElementById('ai-fab'),
+                window: document.getElementById('ai-window'),
+                close: document.getElementById('ai-close'),
+                minimize: document.getElementById('ai-minimize'),
+                messages: document.getElementById('ai-messages'),
+                input: document.getElementById('ai-input'),
+                send: document.getElementById('ai-send'),
+                body: document.getElementById('ai-body'),
+                configToggle: document.getElementById('ai-config-toggle'),
+                configPanel: document.getElementById('ai-config-panel'),
+                apiKey: document.getElementById('ai-api-key'),
+                modelSelect: document.getElementById('ai-model-select'),
+                apiSelect: document.getElementById('ai-api-select'),
+                saveConfig: document.getElementById('ai-save-config'),
+                testConfig: document.getElementById('ai-test-config'),
+                clearConfig: document.getElementById('ai-clear-config'),
+                configStatus: document.getElementById('ai-config-status'),
+                modelDisplay: document.getElementById('ai-model-display'),
+                shortcutHint: document.getElementById('ai-shortcut-hint')
+            };
+
+            // ============================================
+            // ESTADO
+            // ============================================
+            let isProcessing = false;
+            let isMinimized = false;
+            let isConfigOpen = false;
+
+            // ============================================
+            // BANCO DE CONHECIMENTO LOCAL (FALLBACK INTELIGENTE)
+            // ============================================
+            const KNOWLEDGE = {
+                'oi|olá|opa|eai': 'Olá! Como posso ajudar você hoje? 😊',
+                'tudo bem|como vai|beleza': 'Estou bem, obrigada! E você, como está?',
+                'seu nome|quem é você': 'Sou uma assistente IA criada para ajudar você com o que precisar!',
+                'obrigado|valeu|agradeço': 'Por nada! Fico feliz em ajudar. 😊',
+                'tchau|adeus|até logo': 'Até mais! Foi um prazer ajudar. 👋',
+                'ajuda|o que faz|pode fazer': 'Posso: responder perguntas, programar, traduzir, calcular, pesquisar, dar dicas, explicar conceitos e muito mais!',
+                'matemática|calcular|quanto é': 'Posso fazer cálculos! Me diga a operação com +, -, *, / ou porcentagem.',
+                'programação|código|javascript|python': 'Sou ótima em programação! Me diga o que precisa que eu ajudo com código.',
+                'traduzir|tradução|inglês|português': 'Posso traduzir! Diga a frase e o idioma de destino.',
+                'significa|definição|conceito|o que é': 'Vou pesquisar isso para você! Me dê mais contexto.',
+                'piada|humor|engraçado': 'Por que o programador foi ao médico? Porque estava com um bug na saúde! 😄',
+                'poema|poesia|verso': '🌹 "Na imensidão do código, encontrei um novo mundo. Cada linha uma descoberta, cada erro um aprendizado."',
+                'motivação|motivacional': '🚀 Lembre-se: cada grande conquista começou com a decisão de tentar! Você consegue!'
+            };
+
+            // ============================================
+            // FUNÇÕES DE INTERFACE
+            // ============================================
+
+            // Abrir/fechar janela
+            function toggleWindow() {
+                DOM.window.classList.toggle('active');
+                if (DOM.window.classList.contains('active')) {
+                    DOM.input.focus();
+                    DOM.shortcutHint.classList.remove('show');
+                    autoResizeInput();
+                }
+                updateFabIcon();
+            }
+
+            function openWindow() {
+                DOM.window.classList.add('active');
+                DOM.input.focus();
+                DOM.shortcutHint.classList.remove('show');
+                autoResizeInput();
+                updateFabIcon();
+            }
+
+            function closeWindow() {
+                DOM.window.classList.remove('active');
+                DOM.configPanel.classList.remove('active');
+                isConfigOpen = false;
+                updateFabIcon();
+            }
+
+            function toggleConfig() {
+                isConfigOpen = !isConfigOpen;
+                DOM.configPanel.classList.toggle('active', isConfigOpen);
+                if (isConfigOpen) {
+                    DOM.apiKey.value = CONFIG.apiKey;
+                    DOM.modelSelect.value = CONFIG.model;
+                    DOM.apiSelect.value = CONFIG.apiType;
+                }
+            }
+
+            function updateFabIcon() {
+                const isOpen = DOM.window.classList.contains('active');
+                DOM.fab.textContent = isOpen ? '✕' : '🤖';
+            }
+
+            // Auto-resize do textarea
+            function autoResizeInput() {
+                DOM.input.style.height = 'auto';
+                DOM.input.style.height = Math.min(DOM.input.scrollHeight, 120) + 'px';
+            }
+
+            // Scroll para o final
+            function scrollToBottom() {
+                setTimeout(() => {
+                    DOM.body.scrollTop = DOM.body.scrollHeight;
+                }, 50);
+            }
+
+            // ============================================
+            // MENSAGENS
+            // ============================================
+
+            function addMessage(text, type, extra = {}) {
+                const div = document.createElement('div');
+                div.className = `message ${type}`;
+
+                if (type === 'ai' && extra.think) {
+                    div.innerHTML = `
+                        <div class="think">💭 ${extra.think}</div>
+                        ${text}
+                    `;
+                } else if (type === 'ai' && extra.code) {
+                    div.innerHTML = `
+                        <div class="code-block">${escapeHtml(text)}</div>
+                    `;
+                } else {
+                    div.textContent = text;
+                }
+
+                DOM.messages.appendChild(div);
+                scrollToBottom();
+                return div;
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function showTyping() {
+                const div = document.createElement('div');
+                div.className = 'message ai';
+                div.id = 'typing-indicator';
+                div.innerHTML = `
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                `;
+                DOM.messages.appendChild(div);
+                scrollToBottom();
+            }
+
+            function removeTyping() {
+                const typing = document.getElementById('typing-indicator');
+                if (typing) typing.remove();
+            }
+
+            // ============================================
+            // PROCESSAMENTO INTELIGENTE
+            // ============================================
+
+            async function sendMessage() {
+                const text = DOM.input.value.trim();
+                if (!text || isProcessing) return;
+
+                // Adiciona mensagem do usuário
+                addMessage(text, 'user');
+                DOM.input.value = '';
+                DOM.send.disabled = true;
+                autoResizeInput();
+
+                isProcessing = true;
+                showTyping();
+
+                try {
+                    let resposta, think = '';
+
+                    // Tenta usar API se configurada
+                    if (CONFIG.apiKey && CONFIG.apiType !== 'local') {
+                        try {
+                            const apiResponse = await queryAPI(text);
+                            if (apiResponse) {
+                                resposta = apiResponse.answer;
+                                think = apiResponse.think || 'Pensando...';
+                            } else {
+                                throw new Error('API não respondeu');
+                            }
+                        } catch (apiError) {
+                            console.warn('API falhou, usando fallback:', apiError);
+                            const local = getLocalAnswer(text);
+                            if (local) {
+                                resposta = local;
+                                think = 'Usando conhecimento local';
+                            } else {
+                                resposta = generateSmartResponse(text);
+                                think = 'Gerando resposta inteligente...';
+                            }
+                        }
+                    } else {
+                        // Fallback local
+                        const local = getLocalAnswer(text);
+                        if (local) {
+                            resposta = local;
+                            think = 'Conhecimento local';
+                        } else {
+                            resposta = generateSmartResponse(text);
+                            think = 'Gerando resposta...';
+                        }
+                    }
+
+                    await sleep(300 + Math.random() * 400);
+                    removeTyping();
+
+                    // Detecta se é código
+                    const isCode = resposta.includes('```') || 
+                                  resposta.includes('function') || 
+                                  resposta.includes('class ') ||
+                                  resposta.includes('import ');
+
+                    addMessage(resposta, 'ai', { think, code: isCode });
+
+                } catch (error) {
+                    console.error('Erro:', error);
+                    removeTyping();
+                    addMessage('❌ Desculpe, tive um problema. Tente novamente ou configure uma API válida.', 'ai');
+                }
+
+                isProcessing = false;
+                DOM.send.disabled = false;
+                DOM.input.focus();
+            }
+
+            // ============================================
+            // RESPOSTA LOCAL INTELIGENTE
+            // ============================================
+
+            function getLocalAnswer(question) {
+                const lower = question.toLowerCase().trim();
+
+                // Verifica padrões
+                for (const [pattern, response] of Object.entries(KNOWLEDGE)) {
+                    const patterns = pattern.split('|');
+                    for (const p of patterns) {
+                        if (lower.includes(p)) {
+                            return response;
+                        }
+                    }
+                }
+
+                // Matemática
+                if (lower.match(/[\d\+\-\*\/\%]/)) {
+                    return solveMath(question);
+                }
+
+                // Data/Hora
+                if (lower.includes('hora') || lower.includes('horário')) {
+                    return `🕐 Agora são ${new Date().toLocaleTimeString('pt-BR')}`;
+                }
+
+                if (lower.includes('data') || lower.includes('hoje')) {
+                    return `📅 Hoje é ${new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+                }
+
+                // Clima (simulado)
+                if (lower.includes('clima') || lower.includes('tempo') || lower.includes('temperatura')) {
+                    return '🌤️ Para informações climáticas precisas, recomendo consultar um site especializado como o Climatempo.';
+                }
+
+                // Tradução simples
+                if (lower.includes('traduzir') && lower.includes('inglês')) {
+                    return '🔤 Diga a palavra ou frase em português que quer traduzir para inglês.';
+                }
+
+                return null;
+            }
+
+            // ============================================
+            // RESOLVER MATEMÁTICA
+            // ============================================
+
+            function solveMath(question) {
+                try {
+                    // Limpa a pergunta
+                    const clean = question
+                        .replace(/quanto é/gi, '')
+                        .replace(/calcular/gi, '')
+                        .replace(/qual é/gi, '')
+                        .replace(/quanto dá/gi, '')
+                        .replace(/=/g, '')
+                        .trim();
+
+                    // Extrai números e operadores
+                    const match = clean.match(/([\d.,]+)\s*([+\-*/%])\s*([\d.,]+)/);
+                    if (!match) {
+                        return '🧮 Por favor, diga a operação claramente. Exemplo: "2 + 2" ou "10 * 5"';
+                    }
+
+                    const num1 = parseFloat(match[1].replace(',', '.'));
+                    const operator = match[2];
+                    const num2 = parseFloat(match[3].replace(',', '.'));
+
+                    if (isNaN(num1) || isNaN(num2)) {
+                        return '🧮 Não entendi os números. Tente algo como "5 + 3"';
+                    }
+
+                    let result;
+                    let operation;
+
+                    switch (operator) {
+                        case '+':
+                            result = num1 + num2;
+                            operation = 'soma';
+                            break;
+                        case '-':
+                            result = num1 - num2;
+                            operation = 'subtração';
+                            break;
+                        case '*':
+                        case 'x':
+                            result = num1 * num2;
+                            operation = 'multiplicação';
+                            break;
+                        case '/':
+                        case '÷':
+                            if (num2 === 0) return '❌ Não posso dividir por zero!';
+                            result = num1 / num2;
+                            operation = 'divisão';
+                            break;
+                        case '%':
+                            result = (num1 * num2) / 100;
+                            operation = 'porcentagem';
+                            break;
+                        default:
+                            return '🧮 Operador não reconhecido. Use +, -, *, / ou %';
+                    }
+
+                    return `🧮 Resultado da ${operation}: **${num1} ${operator} ${num2} = ${result}**`;
+                } catch (e) {
+                    return '🧮 Não entendi a operação. Tente: "2 + 2" ou "10 * 5"';
+                }
+            }
+
+            // ============================================
+            // GERAR RESPOSTA INTELIGENTE (FALLBACK)
+            // ============================================
+
+            function generateSmartResponse(question) {
+                const lower = question.toLowerCase();
+                const templates = [
+                    `🤔 Interessante pergunta sobre "${question.substring(0, 30)}..."`,
+                    `📝 Vou analisar isso: "${question}"`,
+                    `💡 Deixe-me pensar sobre "${question}"...`,
+                    `🔍 Ótima pergunta! Sobre isso:`,
+                    `✨ Que pergunta interessante!`
+                ];
+
+                let response = templates[Math.floor(Math.random() * templates.length)];
+
+                // Adiciona contexto baseado no tipo de pergunta
+                if (lower.includes('como') || lower.includes('qual')) {
+                    response += '\n\n💡 Para responder melhor, você pode configurar uma API (ícone ⚙️) ou me dar mais detalhes.';
+                } else if (lower.includes('por que') || lower.includes('porque')) {
+                    response += '\n\n🔬 Essa é uma pergunta complexa. Com uma API configurada, posso dar uma resposta mais precisa!';
+                } else if (lower.length < 20) {
+                    response += '\n\n🤷 Pode reformular a pergunta? Quanto mais detalhes, melhor posso ajudar.';
+                } else {
+                    response += '\n\n📚 Usei meu conhecimento local. Para respostas mais precisas, configure uma API.';
+                }
+
+                return response;
+            }
+
+            // ============================================
+            // API INTEGRAÇÃO (MULTIPLATAFORMA)
+            // ============================================
+
+            async function queryAPI(question) {
+                const config = {
+                    openai: {
+                        url: 'https://api.openai.com/v1/chat/completions',
+                        headers: {
+                            'Authorization': `Bearer ${CONFIG.apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: {
+                            model: CONFIG.model,
+                            messages: [
+                                { role: 'system', content: 'Você é uma assistente IA útil, amigável e inteligente. Responda de forma clara e concisa.' },
+                                { role: 'user', content: question }
+                            ],
+                            max_tokens: CONFIG.maxTokens,
+                            temperature: CONFIG.temperature
+                        }
+                    },
+                    anthropic: {
+                        url: 'https://api.anthropic.com/v1/messages',
+                        headers: {
+                            'x-api-key': CONFIG.apiKey,
+                            'anthropic-version': '2023-06-01',
+                            'Content-Type': 'application/json'
+                        },
+                        body: {
+                            model: CONFIG.model,
+                            max_tokens: CONFIG.maxTokens,
+                            messages: [{ role: 'user', content: question }]
+                        }
+                    },
+                    google: {
+                        url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: {
+                            contents: [{ parts: [{ text: question }] }]
+                        }
+                    }
+                };
+
+                const api = config[CONFIG.apiType];
+                if (!api) throw new Error('Tipo de API não suportado');
+
+                // Adiciona key para Google
+                let url = api.url;
+                if (CONFIG.apiType === 'google') {
+                    url += `?key=${CONFIG.apiKey}`;
+                }
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: api.headers,
+                    body: JSON.stringify(api.body)
+                });
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${error}`);
+                }
+
+                const data = await response.json();
+
+                // Processa resposta dependendo da API
+                let answer = '';
+                let think = '';
+
+                switch (CONFIG.apiType) {
+                    case 'openai':
+                        answer = data.choices?.[0]?.message?.content || '';
+                        break;
+                    case 'anthropic':
+                        answer = data.content?.[0]?.text || '';
+                        break;
+                    case 'google':
+                        answer = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                        break;
+                }
+
+                if (!answer) {
+                    throw new Error('Resposta vazia da API');
+                }
+
+                return { answer, think: `Usando ${CONFIG.apiType} (${CONFIG.model})` };
+            }
+
+            // ============================================
+            // CONFIGURAÇÃO
+            // ============================================
+
+            function saveConfig() {
+                const key = DOM.apiKey.value.trim();
+                const model = DOM.modelSelect.value;
+                const apiType = DOM.apiSelect.value;
+
+                CONFIG.apiKey = key;
+                CONFIG.model = model;
+                CONFIG.apiType = apiType;
+
+                localStorage.setItem('ai_api_key', key);
+                localStorage.setItem('ai_model', model);
+                localStorage.setItem('ai_api_type', apiType);
+
+                DOM.modelDisplay.textContent = model;
+
+                DOM.configStatus.textContent = '✅ Configuração salva com sucesso!';
+                DOM.configStatus.style.color = '#10b981';
+
+                setTimeout(() => {
+                    DOM.configStatus.textContent = '';
+                }, 3000);
+
+                if (key) {
+                    DOM.configStatus.textContent = '🔑 API Key configurada. Teste para verificar.';
+                    DOM.configStatus.style.color = '#6b7280';
+                }
+            }
+
+            async function testConfig() {
+                if (!CONFIG.apiKey) {
+                    DOM.configStatus.textContent = '❌ Por favor, insira uma API Key primeiro.';
+                    DOM.configStatus.style.color = '#ef4444';
+                    return;
+                }
+
+                DOM.configStatus.textContent = '⏳ Testando conexão...';
+                DOM.configStatus.style.color = '#6b7280';
+
+                try {
+                    const result = await queryAPI('Diga "olá" e confirme que a API está funcionando.');
+                    DOM.configStatus.textContent = '✅ Conexão bem-sucedida! API está funcionando.';
+                    DOM.configStatus.style.color = '#10b981';
+                    addMessage('🧪 Teste de API bem-sucedido!', 'ai', { think: 'API conectada' });
+                    addMessage(result.answer, 'ai');
+                } catch (error) {
+                    DOM.configStatus.textContent = `❌ Erro: ${error.message}`;
+                    DOM.configStatus.style.color = '#ef4444';
+                    console.error('Teste falhou:', error);
+                }
+            }
+
+            function clearConfig() {
+                CONFIG.apiKey = '';
+                CONFIG.model = 'gpt-3.5-turbo';
+                CONFIG.apiType = 'openai';
+                localStorage.removeItem('ai_api_key');
+                localStorage.removeItem('ai_model');
+                localStorage.removeItem('ai_api_type');
+
+                DOM.apiKey.value = '';
+                DOM.modelSelect.value = 'gpt-3.5-turbo';
+                DOM.apiSelect.value = 'openai';
+                DOM.modelDisplay.textContent = 'GPT-3.5';
+
+                DOM.configStatus.textContent = '🗑️ Configurações limpas. Usando modo local.';
+                DOM.configStatus.style.color = '#6b7280';
+
+                setTimeout(() => {
+                    DOM.configStatus.textContent = '';
+                }, 3000);
+            }
+
+            // ============================================
+            // UTILIDADES
+            // ============================================
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            // ============================================
+            // EVENTOS
+            // ============================================
+
+            // Botão flutuante
+            DOM.fab.addEventListener('click', toggleWindow);
+
+            // Fechar
+            DOM.close.addEventListener('click', closeWindow);
+
+            // Minimizar
+            DOM.minimize.addEventListener('click', () => {
+                isMinimized = !isMinimized;
+                DOM.body.style.display = isMinimized ? 'none' : 'block';
+                DOM.footer.style.display = isMinimized ? 'none' : 'flex';
+                DOM.minimize.textContent = isMinimized ? '□' : '─';
+            });
+
+            // Configuração
+            DOM.configToggle.addEventListener('click', toggleConfig);
+
+            // Salvar configuração
+            DOM.saveConfig.addEventListener('click', saveConfig);
+
+            // Testar configuração
+            DOM.testConfig.addEventListener('click', testConfig);
+
+            // Limpar configuração
+            DOM.clearConfig.addEventListener('click', clearConfig);
+
+            // Enviar mensagem
+            DOM.send.addEventListener('click', sendMessage);
+
+            // Enter para enviar (Shift+Enter = nova linha)
+            DOM.input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // Auto-resize do textarea
+            DOM.input.addEventListener('input', autoResizeInput);
+
+            // ============================================
+            // ATALHO DE TECLADO (Shift + S)
+            // ============================================
+
+            document.addEventListener('keydown', (e) => {
+                // Shift + S
+                if (e.shiftKey && (e.key === 's' || e.key === 'S')) {
+                    e.preventDefault();
+                    toggleWindow();
+                    showShortcutHint();
+                }
+
+                // ESC para fechar
+                if (e.key === 'Escape' && DOM.window.classList.contains('active')) {
+                    closeWindow();
+                }
+
+                // Ctrl + Enter para enviar (alternativa)
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    if (DOM.window.classList.contains('active')) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                }
+            });
+
+            // Mostrar hint do atalho
+            function showShortcutHint() {
+                DOM.shortcutHint.classList.add('show');
+                setTimeout(() => {
+                    DOM.shortcutHint.classList.remove('show');
+                }, 2000);
+            }
+
+            // Mostrar hint ao carregar
+            setTimeout(showShortcutHint, 1000);
+
+            // ============================================
+            // INICIALIZAÇÃO
+            // ============================================
+
+            // Carrega configurações salvas
+            if (CONFIG.apiKey) {
+                DOM.apiKey.value = CONFIG.apiKey;
+                DOM.modelSelect.value = CONFIG.model;
+                DOM.apiSelect.value = CONFIG.apiType;
+                DOM.modelDisplay.textContent = CONFIG.model;
+                DOM.configStatus.textContent = '🔑 API configurada e pronta!';
+                DOM.configStatus.style.color = '#10b981';
+            }
+
+            console.log('🤖 IA Inteligente carregada!');
+            console.log('📌 Pressione Shift + S para abrir');
+            console.log('⚙️ Configure sua API no ícone de engrenagem');
+            console.log('💡 Use localmente sem API também!');
+
+            // Adiciona estilo extra para o config panel
+            const styleExtra = document.createElement('style');
+            styleExtra.textContent = `
+                #ai-footer { display: flex; }
+                #ai-body { display: block; }
+                .message.ai .code-block { background: #1f2937; color: #e5e7eb; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; margin: 6px 0; white-space: pre-wrap; }
+                .message.ai .think { color: #6b7280; font-style: italic; font-size: 13px; padding: 6px 10px; background: #f3f4f6; border-radius: 6px; margin: 4px 0; }
+                #ai-config-panel .config-row { margin-bottom: 8px; }
+                #ai-config-panel .config-row label { font-size: 12px; font-weight: 600; color: #4b5563; display: block; margin-bottom: 4px; }
+                #ai-config-panel input, #ai-config-panel select { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; outline: none; transition: border 0.2s; }
+                #ai-config-panel input:focus, #ai-config-panel select:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+                #ai-config-panel .config-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+                #ai-config-panel .config-actions button { padding: 6px 16px; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+                .btn-save-config { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+                .btn-save-config:hover { transform: scale(1.02); }
+                .btn-test-config { background: #e5e7eb; color: #4b5563; }
+                .btn-test-config:hover { background: #d1d5db; }
+                #ai-config-status { font-size: 12px; margin-top: 6px; color: #6b7280; min-height: 20px; }
+            `;
+            document.head.appendChild(styleExtra);
+
+        })();
+    </script>
+
+</body>
+</html>
