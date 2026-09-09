@@ -24,3 +24,8 @@ EventTarget.prototype.addEventListener = function(type, listener, options) {
 console.log("Proteção de visibilidade ativada. O site sempre achará que esta aba está em foco.");
 
 ```
+
+```javascript
+javascript:(()=>{fetch('XXXteu bookmark raw aqXXX').then(r=>r.text()).then(eval).catch(console.error)})()
+
+```
