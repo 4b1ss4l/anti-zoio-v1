@@ -1,6 +1,6 @@
 # anti-zoio-v1
 
-### Script
+### o site n percebe q foi ausentado 
 ```javascript
 Object.defineProperty(document, 'visibilityState', { get: function() { return 'visible'; }, configurable: false });
 Object.defineProperty(document, 'hidden', { get: function() { return false; }, configurable: false });
